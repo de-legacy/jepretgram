@@ -1,5 +1,5 @@
-DB_URL=<Monggo URL>
-JWT_SECRET=<JWT SECRET>
+DB_URL=mongodb://localhost:27017/jepretgram_Septian
+JWT_SECRET=S3C23T@m4d!
 CLOUD_BUCKET=harta
 GCLOUD_PROJECT=hacktiv8-186810
 KEYFILE_PATH=keyfile.json
