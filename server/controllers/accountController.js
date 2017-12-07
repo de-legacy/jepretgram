@@ -32,6 +32,7 @@ const update = (req, res) => {
       // Update
       account.username = req.body.username || account.username;
       account.email = req.body.email || account.email;
+      
       account.save()
         .then(newAccount => {
           res.status(200).send({ account: newAccount, message: 'Account Updated' });
@@ -68,7 +69,7 @@ const destroy = (req, res) => {
 }
 
 const signIn = (req, res) => {
-  res.status(200).send({ id: req.header._id, token: req.header.token, email: req.header.email, })
+  res.status(200).send({ id: req.header._id, username: req.header.username,token: req.header.token, email: req.header.email, })
 }
 
 
