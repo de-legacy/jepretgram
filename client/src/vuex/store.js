@@ -47,7 +47,8 @@ export default new Vuex.Store({
       http.post('/api/statuses', payload)
         .then(({ data }) => {
           console.log("createStatus", data)
-
+          alert('Status Ditambah')
+          
           context.commit('newStatus', data.status)
 
         }).catch(err => console.log({ message: 'Something wrong', error: err.message }))
