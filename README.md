@@ -1,5 +1,6 @@
 # jepretgram
 Livecode Phase 2
+Demo: `http://jepretgram.septianfujianto.com/`
 
 Aplikasi Web mini-instagram dengan fitur upload foto dengan caption, Like foto dan komentar.
 
