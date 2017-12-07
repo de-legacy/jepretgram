@@ -28,11 +28,32 @@ export default new Vuex.Store({
     setLoggedinUser (state, payload) {
       state.loggedinUser = payload;
     },
+
+    newStatus (state, payload) {
+      console.log('~~~~~NEW STATUS CALLED')
+      state.statuses.push(payload)
+    },
+
+    removeStatus (state, statusIndex) {
+      state.statuses.splice(statusIndex, 1)
+    },
+
+    setLikeStatus (state, payload) {
+      state.statuses[payload.index].likelist.push(payload.accountId)
+    }
   },
   actions: {
-    getStatuses (context, payload) {
-      console.log('~~~ get Status called');
+    createStatus (context, payload) {
+      http.post('/api/statuses', payload)
+        .then(({ data }) => {
+          console.log("createStatus", data)
 
+          context.commit('newStatus', data.status)
+
+        }).catch(err => console.log({ message: 'Something wrong', error: err.message }))
+    },
+
+    getStatuses (context) {
       http.get('/api/statuses')
         .then(({ data }) => {
          context.commit('setStatus', data)
@@ -67,6 +88,23 @@ export default new Vuex.Store({
           alert('Gagal Login. Username')
           console.error({ message: 'Something Wrong on Login', error: err.message })
         })
+    },
+
+    deleteStatus (context, payload) {
+      http.delete('/api/statuses/' + payload.id)
+        .then(({ data }) => {
+          context.commit('removeStatus', payload.index)
+
+        }).catch(err => console.log({ message: 'Something wrong', error: err.message }))
+    },
+
+    likeStatus (context, payload) {
+      console.log("~~~LIKEAC ", payload)
+      http.put('/api/statuses/' + payload.id + '/like/' + payload.accountId)
+        .then(({ data }) => {
+          context.commit('setLikeStatus', {index: payload.index, accountId: payload.accountId})
+
+        }).catch(err => console.log({ message: 'Something wrong', error: err.message }))
     },
   }
 })

@@ -30,29 +30,23 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="newStatusModalLabel">New Status</h4>
+            <h4 class="modal-title" id="newStatusModalLabel" data-dismiss="modal" aria-label="Close">New Status</h4>
           </div>
           <div class="modal-body">
-            <div class="input-group u-full-width">
+            <div class="uploader">
 								<div v-if="!uploadImage">
 									<label>Pilih gambar</label>
 									<input type="file" @change="onFileChange">
 								</div>
 
 								<div v-else>
-									<div class="row">
-										<div class="col-md-12">
-											<img clas="small-thumbnai" :src="uploadImage" />
-										</div><!-- /.col-md-12 -->
-
-										<div class="col-md-12">
-												<button class="btn btn-danger" @click.prevent="removeImage">Remove image</button>
-										</div><!-- /.col-md-12 -->
-									</div><!-- /.row -->
+                  <img clas="small-thumbnai" :src="uploadImage" />
+                  <button class="btn btn-danger" @click.prevent="removeImage">Remove</button>
 								</div>
 
 							</div>
 
+            
             <input type="text" id="caption" name="caption" ref="caption" placeholder="Caption">
 
           </div>
@@ -80,6 +74,7 @@ export default {
   methods: {
     ...mapActions([
       'setLogin',
+      'createStatus'
     ]),
 
     ...mapMutations([
@@ -88,6 +83,17 @@ export default {
 
     doNewStatus() {
       alert("New status")
+     /*  let statusData = {
+        caption: this.$refs.caption.value,
+        image: this.
+      } */
+
+      var formData = new FormData();
+			formData.append('caption', this.$refs.caption.value);
+			formData.append('owner',  this.loggedinUser.id);
+      formData.append('image',  this.uploadFile);
+      
+      this.createStatus(formData)
     },
 
     onFileChange(e) {
@@ -112,7 +118,8 @@ export default {
     },
 
     removeImage: function (e) {
-      this.uploadImage = '';
+      this.uploadImage = ''
+      this.uploadFile = ''
     },
 
     doLogin () {
@@ -131,7 +138,8 @@ export default {
   },
   computed: {
     ...mapState([
-      'statuses'
+      'statuses',
+      'loggedinUser'
     ])
   },
   created() {

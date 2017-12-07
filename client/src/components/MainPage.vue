@@ -3,7 +3,12 @@
    <div class="status-item" v-for="(status, index) in statuses" :key="index">
      <img class="small-img" :src="status.image" :alt="status.title">
      <h2 class="status-caption">{{ status.caption }}</h2>
-     <a href="#" @click.prevent="doLike(index, status._id)">Like It</a>
+     <small>{{ status._id }}</small>
+     <h3>
+       <a href="#" @click.prevent="doLike(status, index)">Like => {{ status.likelist.length }} </a>
+     </h3>
+     
+     <h3><a href="#" @click.prevent="doDelete(status._id, index)">Delete</a></h3>
    </div>
   </div>
 </template>
@@ -15,21 +20,57 @@ export default {
   name: 'MainPage',
   data () {
     return {
-     
+      likeCount : 0
     }
   },
   methods: {
     ...mapActions([
-      'getStatuses'
+      'getStatuses',
+      'deleteStatus',
+      'likeStatus'
     ]),
 
     doLike(status, index) {
-      console.log("Like ", status, index)
+      var arrLikeList =  this.statuses[index].likelist;
+      var owner = this.statuses[index].owner
+      
+      if ((owner === this.loggedinUser.id)) {
+        alert("Tidak bisa like sendiri")
+
+      } else {
+
+        if (arrLikeList.length === 0) {
+          this.likeStatus({
+            id: status._id,
+            index: index,
+            accountId: this.loggedinUser.id
+          })
+        } else {
+          if (arrLikeList.indexOf(this.loggedinUser.id) >= 0) {
+            this.likeStatus({
+              id: status._id,
+              index: index,
+              accountId: this.loggedinUser.id
+            })
+          } else {
+            alert("Sudah like")
+          }
+        }
+      }
+   
+    },
+
+    doDelete(statusId, index) {
+      this.deleteStatus({
+        id: statusId,
+        index: index
+      })
     }
   },
   computed: {
     ...mapState([
-      'statuses'
+      'statuses',
+      'loggedinUser'
     ])
   },
   created() {
