@@ -52,7 +52,15 @@ export default new Vuex.Store({
   },
   actions: {
     setCaption (context, payload) {
-      context.commit('updateCaption', payload)
+      http.put('/api/statuses/' + payload.id, { caption: payload.caption })
+        .then(({ data }) => {
+          console.log('updateCaption', data)
+
+          alert('Caption Diubah jadi ' + payload.caption)
+
+          context.commit('updateCaption', payload)
+
+        }).catch(err => console.log({ message: 'Something wrong', error: err.message }))
     },
 
     setComment (context, payload) {
