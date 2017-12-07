@@ -11,6 +11,9 @@
      </h3>
      
      <h3><a href="#" @click.prevent="doDelete(status._id, index)">Delete</a></h3>
+     <h3>
+       <a href="#" @click.prevent="doEditCaption(status, index)">Edit Caption</a>
+     </h3>
 
      <h4>Komentar</h4>
      <div class="alert alert-warning" v-for="(comment, index) in status.commentlist" :key="index">
@@ -35,8 +38,20 @@ export default {
       'getStatuses',
       'deleteStatus',
       'likeStatus',
-      'setComment'
+      'setComment',
+      'setCaption'
     ]),
+    
+    doEditCaption(status, index) {
+      var caption = prompt("Enter Your New Caption");
+      let captionData = {
+          index: index,
+          id: status._id,
+          caption: caption
+      }
+
+      this.setCaption(captionData)
+    },
 
     givComment(status, index){
       var comment = prompt("Enter Your Comment");
@@ -44,7 +59,7 @@ export default {
       console.log("Komentar anda ", comment)
 
       if (comment.length > 2) {
-         let commentData = {
+        let commentData = {
           index: index,
           id: status._id,
           accountId: this.loggedinUser.id,

@@ -44,9 +44,17 @@ export default new Vuex.Store({
 
     addComment (state, payload) {
       state.statuses[payload.index].commentlist.push(payload.content)
+    },
+
+    updateCaption (state, payload) {
+      state.statuses[payload.index].caption = payload.caption
     }
   },
   actions: {
+    setCaption (context, payload) {
+      context.commit('updateCaption', payload)
+    },
+
     setComment (context, payload) {
       http.post('/api/statuses/' + payload.id + '/comment', { comment: payload.content })
         .then(({ data }) => {
