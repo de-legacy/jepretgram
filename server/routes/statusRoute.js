@@ -12,6 +12,7 @@ router.get('/:statusId', statusController.findById);
 router.post('/', fileUpload.multer.single('image'), fileUpload.sendUploadToGCS, statusController.create);
 router.delete('/:statusId', statusController.destroy);
 router.put('/:statusId', statusController.update);
+router.put('/:statusId/like/:accountId', statusController.likeStatus);
 
 
 module.exports = router;
