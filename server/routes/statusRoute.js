@@ -13,6 +13,7 @@ router.post('/', fileUpload.multer.single('image'), fileUpload.sendUploadToGCS, 
 router.delete('/:statusId', statusController.destroy);
 router.put('/:statusId', statusController.update);
 router.put('/:statusId/like/:accountId', statusController.likeStatus);
+router.post('/:statusId/comment', statusController.giveComment);
 
 
 module.exports = router;

@@ -86,6 +86,24 @@ const likeStatus = (req, res) => {
   }).catch(err => res.status(500).send({ message: err.message }));
 }
 
+const giveComment = (req, res) => {
+  statusModel.findOne({ _id: ObjectId(req.params.statusId) }).then(status => {
+    if (status) {
+      status.commentlist.push(req.body.comment)
+
+      status.save()
+        .then(newstatus => {
+          res.status(200).send({ status: newstatus, message: 'Status commented' });
+
+        }).catch(err => res.status(500).send({ message: 'Something wrong new Updated', error: err.message }));
+
+    } else {
+      res.status(500).send({ message: "status not found" });
+    }
+
+  }).catch(err => res.status(500).send({ message: err.message }));
+}
+
 const destroy = (req, res) => {
  statusModel.findByIdAndRemove(ObjectId(req.params.statusId), (err,statusDeleted) => {
     if (err) {
@@ -106,5 +124,6 @@ module.exports = {
   create,
   update,
   destroy,
-  likeStatus
+  likeStatus,
+  giveComment
 }

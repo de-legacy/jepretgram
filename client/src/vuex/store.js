@@ -48,7 +48,16 @@ export default new Vuex.Store({
   },
   actions: {
     setComment (context, payload) {
-      context.commit('addComment', payload)
+      http.post('/api/statuses/' + payload.id + '/comment', { comment: payload.content })
+        .then(({ data }) => {
+          console.log('addComment', data)
+
+          alert('Komen Ditambah')
+
+          context.commit('addComment', payload)
+
+        }).catch(err => console.log({ message: 'Something wrong', error: err.message }))
+
     },
 
     createStatus (context, payload) {

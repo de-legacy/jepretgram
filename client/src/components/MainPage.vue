@@ -13,8 +13,8 @@
      <h3><a href="#" @click.prevent="doDelete(status._id, index)">Delete</a></h3>
 
      <h4>Komentar</h4>
-     <div v-for="(comment, index) in status.commentlist" :key="index">
-       <p>Komentar ({{ index }}) {{ comment }}</p>
+     <div class="alert alert-warning" v-for="(comment, index) in status.commentlist" :key="index">
+       <p> {{ comment }}</p>
      </div>
    </div>
   </div>
@@ -43,14 +43,18 @@ export default {
 
       console.log("Komentar anda ", comment)
 
-      let commentData = {
-        index: index,
-        id: status._id,
-        accountId: this.loggedinUser.id,
-        content: comment
-      }
+      if (comment.length > 2) {
+         let commentData = {
+          index: index,
+          id: status._id,
+          accountId: this.loggedinUser.id,
+          content: comment
+        }
 
-      this.setComment(commentData)
+        this.setComment(commentData)
+      } else {
+        alert('Isi komentar minimal 3 Karakter')
+      }
     },
 
     doLike(status, index) {
