@@ -58,7 +58,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+            <button type="button" class="btn btn-primary" @click.prevent="doNewStatus">Add Status</button>
           </div>
         </div>
       </div>
@@ -85,6 +85,10 @@ export default {
     ...mapMutations([
       'setStatus'
     ]),
+
+    doNewStatus() {
+      alert("New status")
+    },
 
     onFileChange(e) {
       var files = e.target.files || e.dataTransfer.files;
