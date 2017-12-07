@@ -14,8 +14,7 @@ const statusSchema = new Schema({
     ref: 'Account',
   }],
   commentlist: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Comment',
+    type: String,
   }],
 });
 

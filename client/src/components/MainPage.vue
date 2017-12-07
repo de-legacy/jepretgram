@@ -4,11 +4,18 @@
      <img class="small-img" :src="status.image" :alt="status.title">
      <h2 class="status-caption">{{ status.caption }}</h2>
      <small>{{ status._id }}</small>
+      <p> <a href="#" class="btn btn-primary" @click.prevent="givComment(status, index)">Give Comment</a> </p>
+
      <h3>
        <a href="#" @click.prevent="doLike(status, index)">Like => {{ status.likelist.length }} </a>
      </h3>
      
      <h3><a href="#" @click.prevent="doDelete(status._id, index)">Delete</a></h3>
+
+     <h4>Komentar</h4>
+     <div v-for="(comment, index) in status.commentlist" :key="index">
+       <p>Komentar ({{ index }}) {{ comment }}</p>
+     </div>
    </div>
   </div>
 </template>
@@ -27,8 +34,24 @@ export default {
     ...mapActions([
       'getStatuses',
       'deleteStatus',
-      'likeStatus'
+      'likeStatus',
+      'setComment'
     ]),
+
+    givComment(status, index){
+      var comment = prompt("Enter Your Comment");
+
+      console.log("Komentar anda ", comment)
+
+      let commentData = {
+        index: index,
+        id: status._id,
+        accountId: this.loggedinUser.id,
+        content: comment
+      }
+
+      this.setComment(commentData)
+    },
 
     doLike(status, index) {
       var arrLikeList =  this.statuses[index].likelist;
